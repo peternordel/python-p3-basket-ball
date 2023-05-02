@@ -182,3 +182,54 @@ def game_dict():
             ]
         }
     }
+
+import ipdb
+
+home = game_dict()["home"]
+away = game_dict()["away"]
+
+def get_all_players():
+    players = []
+    for player in home["players"]:
+        players.append(player)
+    for player in away["players"]:
+        players.append(player)
+    return players
+
+def num_points_per_game(name):
+    for player in get_all_players():
+        if player["name"] == name:
+            return player["points_per_game"]
+        
+def player_age(name):
+    for player in get_all_players():
+        if player["name"] == name:
+            return player["age"]
+
+def team_colors(team_name):
+    return home["colors"] if home["team_name"] == team_name else away["colors"]
+
+def team_names():
+    return [home["team_name"], away["team_name"]]
+
+def player_numbers(team_name):
+    if home["team_name"] == team_name:
+        return [player["number"] for player in home["players"]]
+    else:
+        return [player["number"] for player in away["players"]]
+
+def player_stats(name):
+    for player in get_all_players():
+        if player["name"] == name:
+            return player
+
+def average_rebounds_by_shoe_brand():
+    rebounds_shoe_brand = {}
+
+    for player in get_all_players():
+        if player["shoe_brand"] not in rebounds_shoe_brand:
+            rebounds_shoe_brand[player["shoe_brand"]] = []
+        rebounds_shoe_brand[player["shoe_brand"]].append(player["rebounds_per_game"])
+
+    for brand in rebounds_shoe_brand:
+        print(f'{brand}:  {sum(rebounds_shoe_brand[brand])/len(rebounds_shoe_brand[brand]):.2f}')
